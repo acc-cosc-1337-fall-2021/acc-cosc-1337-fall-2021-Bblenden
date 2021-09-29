@@ -2,6 +2,7 @@
 #include<iostream>
 #include<iomanip>
 #include"hwexpressions.h"
+#include<math.h>
 //write namespace using statement for cout
 using std::cin;
 using std::cout;
@@ -24,6 +25,7 @@ int main()
 	cin >> tip_rate;
 	tip_amount = get_tip_amount(meal_amount, tip_rate);
 	total = meal_amount + tip_amount + tax_amount;
+	total = total, 2;
 	cout << std::fixed;
 	cout << std::setprecision(2);
 	cout << "Meal Amount:" << std::setw(8) << meal_amount << '\n';
