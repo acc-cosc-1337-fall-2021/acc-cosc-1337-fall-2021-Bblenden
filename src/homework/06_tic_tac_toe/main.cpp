@@ -1,4 +1,5 @@
 #include "tic_tac_toe.h"
+#include "tic_tac_toe_manager.h"
 #include <string>
 #include <vector>
 #include <iostream>
@@ -7,13 +8,12 @@ using namespace std;
 
 int main() 
 {
-	
+	TicTacToeManager manager;
 	TicTacToe game;
 
 	string first_player;
 	char player_choice;
-	int position;
-	bool game_over;
+	
 
 	cout<<"Welcome to Tic Tac Toe! \n-----------------------------\n\n";
 
@@ -42,14 +42,19 @@ int main()
 	{
 		game.start_game(first_player);
 		
-		do
+		while(game.game_over() == false)
 		{
-			cout<<"\n"<<game.get_player()<<"! Pick a space, 1-9.\n";
-			cin>>position;
-			game.mark_board(position);
-			game.display_board();
-			game_over = game.game_over();
-		}while(game_over == false);
+			cin>>game;
+			cout<<game;
+		}
+
+		manager.save_game(game);
+
+		int o, x, t;
+		manager.get_winner_total(o, x, t);
+		cout<<" O wins: "<<o;
+		cout<<" X wins: "<<x;
+		cout<<" T wins: "<<t<<"\n";
 
 		if (game.get_winner() == "X" || game.get_winner() == "O")
 		{
@@ -63,7 +68,8 @@ int main()
 		cin>>player_choice;
 	
 	} while (player_choice == 'Y' || player_choice == 'y');
-	
+
+	cout<<manager;
 
 	return 0;
 }

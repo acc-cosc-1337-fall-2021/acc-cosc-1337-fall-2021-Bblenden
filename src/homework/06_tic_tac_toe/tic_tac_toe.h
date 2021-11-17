@@ -3,6 +3,9 @@
 #include<iostream>
 #include<vector>
 
+#ifndef TIC_TAC_TOE_H
+#define TIC_TAC_TOE_H
+
 using std::string; using std::vector;
 
 class TicTacToe
@@ -17,8 +20,9 @@ public:
     // returns the player variable
     string get_player()const;
     // displays the board
-    void display_board()const;
-    string get_winner();
+    string get_winner()const;
+    friend std::ostream& operator<<(std::ostream& out, const TicTacToe& game);
+    friend std::istream& operator>>(std::istream& in, TicTacToe& game);
 
 private:
     void set_next_player();
@@ -33,3 +37,5 @@ private:
     string winner;
 
 };
+
+#endif
