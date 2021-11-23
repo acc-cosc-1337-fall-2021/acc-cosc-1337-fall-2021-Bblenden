@@ -5,12 +5,14 @@
 #include <iostream>
 #include "tic_tac_toe_3.h"
 #include "tic_tac_toe_4.h"
+#include "tic_tac_toe_data.h"
 
 using namespace std;
 
 int main() 
 {
-	TicTacToeManager manager;
+	TicTacToeData data;
+	TicTacToeManager manager(data);
 	unique_ptr <TicTacToe> game;
 
 	string first_player;
