@@ -3,16 +3,18 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include "tic_tac_toe_3.h"
+#include "tic_tac_toe_4.h"
 
 using namespace std;
 
 int main() 
 {
 	TicTacToeManager manager;
-	TicTacToe game;
+	unique_ptr <TicTacToe> game;
 
 	string first_player;
-	char player_choice;
+	string player_choice = "Y";
 	
 
 	cout<<"Welcome to Tic Tac Toe! \n-----------------------------\n\n";
@@ -20,6 +22,24 @@ int main()
 	int correct_choice = 0;
 	do
 	{
+		auto game_type = 0;
+
+		cout<<"enter game type(3 or 4): ";
+		cin>>game_type;
+
+		if(game_type == 3)
+		{
+			game = make_unique<TicTacToe3>();
+		}
+
+		else
+		{
+			{
+				game = make_unique<TicTacToe4>();
+			}
+		}
+		
+
 		cout<<"Would you like to be Xs or Os? \n";
 		cin>>first_player;
 
@@ -40,12 +60,21 @@ int main()
 
 	do
 	{
-		game.start_game(first_player);
+		game->start_game(first_player);
 		
-		while(game.game_over() == false)
+		while(game->game_over() == false)
 		{
-			cin>>game;
-			cout<<game;
+			cin>>*game;
+			cout<<*game;
+		}
+
+			if (game->get_winner() == "X" || game->get_winner() == "O")
+		{
+			cout<<"\nThe winner is "<<game->get_winner();
+		}
+		else if (game->get_winner() == "C")
+		{
+			cout<<"\nLooks like the game is a tie!";
 		}
 
 		manager.save_game(game);
@@ -56,18 +85,11 @@ int main()
 		cout<<" X wins: "<<x;
 		cout<<" T wins: "<<t<<"\n";
 
-		if (game.get_winner() == "X" || game.get_winner() == "O")
-		{
-			cout<<"\nThe winner is "<<game.get_winner();
-		}
-		else if (game.get_winner() == "C")
-		{
-			cout<<"\nLooks like the game is a tie!";
-		}
+
 		cout<<"\nWould you like to play again? (Y/N): \n";
 		cin>>player_choice;
 	
-	} while (player_choice == 'Y' || player_choice == 'y');
+	} while (player_choice == "Y" || player_choice == "y");
 
 	cout<<manager;
 

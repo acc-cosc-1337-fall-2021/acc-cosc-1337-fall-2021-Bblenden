@@ -5,6 +5,7 @@
 #include <ostream>
 #include <iostream>
 #include "tic_tac_toe_manager.h"
+#include "math.h"
 
 using namespace std; 
 
@@ -54,58 +55,17 @@ string TicTacToe::get_winner()const
 
 bool TicTacToe::check_column_win()
 {
-    if((pegs[0] == "X" && pegs[3] == "X" && pegs[6] == "X") || (pegs[0] == "O" && pegs[3] == "O" && pegs[6] == "O"))
-    {
-        return true;
-    }
-    else if((pegs[1] == "X" && pegs[4] == "X" && pegs[7] == "X") || (pegs[1] == "O" && pegs[4] == "O" && pegs[7] == "O"))
-    {
-        return true;
-    }
-    else if((pegs[2] == "X" && pegs[5] == "X" && pegs[8] == "X") || (pegs[2] == "O" && pegs[5] == "O" && pegs[8] == "O"))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return false;
 }
 
 bool TicTacToe::check_row_win()
 {
-    if((pegs[0] == "X" && pegs[1] == "X" && pegs[2] == "X") || (pegs[0] == "O" && pegs[1] == "O" && pegs[2] == "O"))
-    {
-        return true;
-    }
-    else if((pegs[3] == "X" && pegs[4] == "X" && pegs[5] == "X") || (pegs[3] == "O" && pegs[4] == "O" && pegs[5] == "O"))
-    {
-        return true;
-    }
-    else if((pegs[6] == "X" && pegs[7] == "X" && pegs[8] == "X") || (pegs[6] == "O" && pegs[7] == "O" && pegs[8] == "O"))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }    
+    return false;
 }
 
 bool TicTacToe::check_diagonal_win()
 {
-    if((pegs[0] == "X" && pegs[4] == "X" && pegs[8] == "X") || (pegs[0] == "O" && pegs[4] == "O" && pegs[8] == "O"))
-    {
-        return true;
-    }
-    else if((pegs[2] == "X" && pegs[4] == "X" && pegs[6] == "X") || (pegs[2] == "O" && pegs[4] == "O" && pegs[6] == "O"))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }   
+    return false;
 }
 
 void TicTacToe::set_winner()
@@ -136,7 +96,7 @@ void TicTacToe::set_next_player()
 bool TicTacToe::check_board_full()
 {
     bool over;
-    for (auto i = 0; i < 9; i++)
+    for (auto i = 0; i < pegs.size(); i++)
     {
         if (pegs[i] == " ")
         {
@@ -153,7 +113,7 @@ bool TicTacToe::check_board_full()
 
 void TicTacToe::clear_board()
 {
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < pegs.size(); i++)
     {
         pegs[i] = " ";
     }
@@ -163,22 +123,29 @@ void TicTacToe::clear_board()
 
 std::ostream& operator<<(std::ostream& out, const TicTacToe& game)
 {
-    for(std::size_t i=0; i < game.pegs.size(); i+=3)
+    for(std::size_t i=0; i < game.pegs.size(); i+=std::sqrt(game.pegs.size()))
     {
-        out<<game.pegs[i]<<"|"<<game.pegs[i+1]<<"|"<<game.pegs[i+2]<<"\n";
+        out<<game.pegs[i]<<"|"<<game.pegs[i+1]<<"|"<<game.pegs[i+2];
+
+        if(game.pegs.size() == 16) {out<<"|"<<game.pegs[i+3];}
+
+        out<<"\n";
     }
 
     return out;
 }
+
 std::istream& operator>>(std::istream& in, TicTacToe& game)
 {
     auto position = 0;
-
-    while(position < 1 || position > 9)
+    cout<<game.pegs.size()<<"n";
+    while(position <1 || position > game.pegs.size())
     {
-        cout<<"Enter a position from 1-9 ";
+        cout<<"Enter a position from 1-"<<game.pegs.size()<<": ";
         in>>position;
     }
-    game.mark_board(position);
-    return in;
+
+    game.mark_board(position); 
+    
+
 }
